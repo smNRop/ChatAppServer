@@ -1,0 +1,60 @@
+scalar Date
+
+input RegistrationInput {
+    email: String!,
+    password: String!,
+    userName: String!,
+    displayName: String,
+    birthDate: Date!,
+}
+
+input LoginInput {
+    email: String!,
+    password: String!
+}
+
+type PrivateUser {
+    email: String!,
+    userName: String!,
+    displayName: String!,
+}
+
+type User {
+    userName: String!,
+    displayName: String!,
+}
+
+type PublicUser {
+    userName: String!,
+    displayName: String!,
+}
+
+type FriendRequest {
+    user: PublicUser!,
+    type: FriendRequestType!
+}
+
+enum FriendRequestType {
+  INCOMING,
+  OUTGOING
+}
+
+type Query {
+    login(loginInput: LoginInput!): String,
+    logout: Boolean,
+    me: PrivateUser,
+    friendRequests: [FriendRequest!]!
+    friends: [User!]!
+}
+
+type Mutation {
+    registration(registrationInput: RegistrationInput!): String,
+    sendFriendRequest(id: ID!): Boolean,
+    acceptFriendRequest(id: ID!): Boolean,
+    declineFriendRequest(id: ID!): Boolean,
+    removeFriend(id: ID!): Boolean,
+}
+
+type Subscription {
+    greetings: String
+}
